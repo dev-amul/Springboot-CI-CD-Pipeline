@@ -34,7 +34,11 @@ jobs:
         # 2. Build the Docker image
         # 3. Push the Docker image to DockerHub
         docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} 
+<<<<<<< HEAD
+        docker build -t amul/springboot-ci-cd .  
+=======
         docker build -t amulb/springboot-ci-cd .  
+>>>>>>> 782ba36 (Update README.md)
         docker push amul/springboot-ci-cd:latest 
 
     - name: Configure AWS credentials

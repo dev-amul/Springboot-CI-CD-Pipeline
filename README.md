@@ -15,8 +15,16 @@
 
 ## 🌟 Description
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ![ci-cd-diagram](https://github.com/dev-amul/Springboot-CI-CD-Pipeline/assets/139672976/5bb11561-eb98-4718-85fd-510c1275d5cb)
 
+=======
+>>>>>>> c720f04 (Update README.md)
+=======
+![ci-cd-diagram](https://github.com/dev-amul/Springboot-CI-CD-Pipeline/assets/139672976/5bb11561-eb98-4718-85fd-510c1275d5cb)
+
+>>>>>>> 782ba36 (Update README.md)
 This project demonstrates a complete CI/CD pipeline for a Spring Boot CRUD application using GitHub Actions, Docker, and AWS. 
 
 The pipeline automates the build, test, Dockerization, and deployment processes to ensure consistent and reliable delivery of the application.
@@ -33,7 +41,15 @@ The main features of this project include:
 
 5. **Continuous Integration with GitHub Actions**: Automated build, test, dockerization and deployment of the Spring Boot application using GitHub Actions. Every push to the main branch triggers the CI pipeline.
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+The frontend React application is also Dockerized and deployed using GitHub Actions, Docker, and AWS. Explore the frontend repository <a href="https://github.com/DharshiBalasubramaniyam/React-CI-CD-Pipeline">here</a>.
+>>>>>>> c720f04 (Update README.md)
+=======
+
+>>>>>>> 782ba36 (Update README.md)
 
 - - -
 

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class InventoryServiceImpl implements InventoryService {
@@ -20,8 +20,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public ResponseEntity<ApiResponseDto<?>> getAllInventories(){
-        List<Inventory> inventories = inventoryRepository.findAll();
         try {
+            List<Inventory> inventories = inventoryRepository.findAll();
             return ResponseEntity.ok(
                     ApiResponseDto.builder()
                             .isSuccess(true)
@@ -30,12 +30,11 @@ public class InventoryServiceImpl implements InventoryService {
                             .build()
             );
         }catch (Exception e) {
-//            Try to create a custom exception and handle them using exception handlers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     ApiResponseDto.builder()
                             .isSuccess(false)
                             .response("Unable to process right now. Try again later!")
-                            .message("No results found!")
+                            .message("Failed to retrieve inventories.")
                             .build()
             );
         }
@@ -43,22 +42,30 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public ResponseEntity<ApiResponseDto<?>> getInventoryById(String inventoryId) {
-
         try {
-            Inventory category = inventoryRepository.findById(inventoryId).orElse(null);
-            return ResponseEntity.ok(
-                    ApiResponseDto.builder()
-                            .isSuccess(true)
-                            .response(category)
-                            .build()
-            );
+            Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventoryId);
+            if (inventoryOptional.isPresent()) {
+                return ResponseEntity.ok(
+                        ApiResponseDto.builder()
+                                .isSuccess(true)
+                                .response(inventoryOptional.get())
+                                .message("Inventory found.")
+                                .build()
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ApiResponseDto.builder()
+                                .isSuccess(false)
+                                .message("Inventory not found with ID: " + inventoryId)
+                                .build()
+                );
+            }
         }catch (Exception e) {
-//            Try to create a custom exception and handle them using exception handlers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     ApiResponseDto.builder()
                             .isSuccess(false)
                             .response("Unable to process right now. Try again later!")
-                            .message("No results found!")
+                            .message("Failed to retrieve inventory by ID.")
                             .build()
             );
         }
@@ -67,84 +74,80 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public ResponseEntity<ApiResponseDto<?>> createInventory(InventoryRequestDto inventoryRequestDto) {
         try {
-
             InventoryStatus status = inventoryRequestDto.getQuantity() > 0 ? InventoryStatus.In_Stock : InventoryStatus.Out_of_Stock;
-
             Inventory inventory = Inventory.builder()
                     .itemName(inventoryRequestDto.getItemName())
                     .price(inventoryRequestDto.getPrice())
                     .quantity(inventoryRequestDto.getQuantity())
                     .status(status)
                     .build();
-
             inventoryRepository.insert(inventory);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     ApiResponseDto.builder()
-                        .isSuccess(true)
-                        .message("Inventory saved successfully!")
-                        .build()
+                            .isSuccess(true)
+                            .message("Inventory created successfully!")
+                            .response(inventory)
+                            .build()
             );
-
         }catch (Exception e) {
-//            Try to create a custom exception and handle them using exception handlers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     ApiResponseDto.builder()
                             .isSuccess(false)
                             .response("Unable to process right now. Try again later!")
-                            .message("Unable to create Inventory.")
+                            .message("Unable to create inventory.")
                             .build()
             );
         }
     }
 
-
     @Override
     public ResponseEntity<ApiResponseDto<?>> editInventory(String inventoryId, InventoryRequestDto inventoryRequestDto) {
         try {
-
-            Inventory inventory = inventoryRepository.findById(inventoryId).orElse(null);
-
-            if (inventory == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventoryId);
+            if (inventoryOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         ApiResponseDto.builder()
                                 .isSuccess(false)
-                                .message("Inventory not found!")
+                                .message("Inventory not found with ID: " + inventoryId)
                                 .build()
                 );
             }
-
+            Inventory inventory = inventoryOptional.get();
             InventoryStatus status = inventoryRequestDto.getQuantity() > 0 ? InventoryStatus.In_Stock : InventoryStatus.Out_of_Stock;
-
             inventory.setItemName(inventoryRequestDto.getItemName());
             inventory.setPrice(inventoryRequestDto.getPrice());
             inventory.setQuantity(inventoryRequestDto.getQuantity());
             inventory.setStatus(status);
-
             inventoryRepository.save(inventory);
             return ResponseEntity.status(HttpStatus.OK).body(
                     ApiResponseDto.builder()
                             .isSuccess(true)
                             .message("Inventory updated successfully!")
+                            .response(inventory)
                             .build()
             );
-
         }catch (Exception e) {
-//            Try to create a custom exception and handle them using exception handlers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     ApiResponseDto.builder()
                             .isSuccess(false)
                             .response("Unable to process right now. Try again later!")
-                            .message("Unable to edit Inventory.")
+                            .message("Unable to update inventory.")
                             .build()
             );
         }
     }
 
-
     @Override
     public ResponseEntity<ApiResponseDto<?>> deleteInventory(String inventoryId) {
-
         try {
+            if (!inventoryRepository.existsById(inventoryId)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ApiResponseDto.builder()
+                                .isSuccess(false)
+                                .message("Inventory not found with ID: " + inventoryId)
+                                .build()
+                );
+            }
             inventoryRepository.deleteById(inventoryId);
             return ResponseEntity.ok(
                     ApiResponseDto.builder()
@@ -153,12 +156,11 @@ public class InventoryServiceImpl implements InventoryService {
                             .build()
             );
         }catch (Exception e) {
-//            Try to create a custom exception and handle them using exception handlers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     ApiResponseDto.builder()
                             .isSuccess(false)
                             .response("Unable to process right now. Try again later!")
-                            .message("No results found!")
+                            .message("Unable to delete inventory.")
                             .build()
             );
         }
