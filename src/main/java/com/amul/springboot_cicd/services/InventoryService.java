@@ -1,8 +1,8 @@
-package com.dharshi.springboot_cicd.services;
+package com.amul.springboot_cicd.services;
 
 
-import com.dharshi.springboot_cicd.dtos.ApiResponseDto;
-import com.dharshi.springboot_cicd.dtos.InventoryRequestDto;
+import com.amul.springboot_cicd.dtos.ApiResponseDto;
+import com.amul.springboot_cicd.dtos.InventoryRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

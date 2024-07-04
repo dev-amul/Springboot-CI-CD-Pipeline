@@ -1,4 +1,4 @@
-package com.dharshi.springboot_cicd;
+package com.amul.springboot_cicd;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

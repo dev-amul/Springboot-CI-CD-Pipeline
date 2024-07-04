@@ -15,22 +15,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Comment on issue creation
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const eventType = context.payload.action;
-          const issueNumber = context.issue.number;
-          const actor = context.actor;
-          const comment = `Hey @${actor}, Welcome to Github Actions Practice! 🎊
-                           Thanks for opening issue #${issueNumber} ! 🙌 Please wait for the issue to be assigned. Happy Coding!! ✨`
 
-          await github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issueNumber,
-            body: comment
-          });
   
 
   process-issue-creation-add-label:

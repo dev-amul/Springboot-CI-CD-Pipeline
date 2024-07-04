@@ -1,10 +1,10 @@
-package com.dharshi.springboot_cicd.services;
+package com.amul.springboot_cicd.services;
 
-import com.dharshi.springboot_cicd.dtos.ApiResponseDto;
-import com.dharshi.springboot_cicd.dtos.InventoryRequestDto;
-import com.dharshi.springboot_cicd.modals.Inventory;
-import com.dharshi.springboot_cicd.modals.InventoryStatus;
-import com.dharshi.springboot_cicd.repositories.InventoryRepository;
+import com.amul.springboot_cicd.dtos.ApiResponseDto;
+import com.amul.springboot_cicd.dtos.InventoryRequestDto;
+import com.amul.springboot_cicd.modals.Inventory;
+import com.amul.springboot_cicd.modals.InventoryStatus;
+import com.amul.springboot_cicd.repositories.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

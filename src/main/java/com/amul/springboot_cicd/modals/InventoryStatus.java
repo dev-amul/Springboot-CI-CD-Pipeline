@@ -1,4 +1,4 @@
-package com.dharshi.springboot_cicd.modals;
+package com.amul.springboot_cicd.modals;
 
 public enum InventoryStatus {
     In_Stock,

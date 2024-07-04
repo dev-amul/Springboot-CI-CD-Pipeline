@@ -1,4 +1,4 @@
-package com.dharshi.springboot_cicd;
+package com.amul.springboot_cicd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

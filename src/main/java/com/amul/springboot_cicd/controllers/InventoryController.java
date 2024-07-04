@@ -1,8 +1,8 @@
-package com.dharshi.springboot_cicd.controllers;
+package com.amul.springboot_cicd.controllers;
 
-import com.dharshi.springboot_cicd.dtos.ApiResponseDto;
-import com.dharshi.springboot_cicd.dtos.InventoryRequestDto;
-import com.dharshi.springboot_cicd.services.InventoryService;
+import com.amul.springboot_cicd.dtos.ApiResponseDto;
+import com.amul.springboot_cicd.dtos.InventoryRequestDto;
+import com.amul.springboot_cicd.services.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

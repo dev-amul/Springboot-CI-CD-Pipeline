@@ -1,4 +1,4 @@
-package com.dharshi.springboot_cicd.dtos;
+package com.amul.springboot_cicd.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
